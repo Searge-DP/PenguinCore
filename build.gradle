@@ -31,8 +31,8 @@ minecraft {
     runDir = "eclipse"
     mappings = "snapshot_nodoc_20141130"
 
-    //replace "@VERSION@", project.version
-    //replaceIn "PenguinCore.java"
+    replace "@VERSION@", project.version
+    replaceIn "PenguinCore.java"
 }
 
 dependencies {
@@ -56,12 +56,24 @@ processResources {
     }
 }
 
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'joshie.lib.PenguinCore'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'src'
 }
 
 task deobfJar(type: Jar) {
+    manifest {
+        attributes 'FMLCorePlugin': 'joshie.lib.PenguinCore'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+
     from sourceSets.main.output
     classifier = 'dev'
 }
