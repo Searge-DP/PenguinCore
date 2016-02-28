@@ -2,8 +2,12 @@ package joshie.lib;
 
 import java.util.Map;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.Side;
 
 @IFMLLoadingPlugin.SortingIndex(-99)
 @IFMLLoadingPlugin.MCVersion("1.8")
@@ -15,6 +19,13 @@ public class PenguinCore implements IFMLLoadingPlugin {
 	public static final String MODPATH = "joshie";
     public static final String VERSION = "@VERSION@";
 	public static boolean isDev;
+	
+	@EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			PenguinFontRenderer.load();
+		}
+	}
 
 	@Override
 	public String[] getASMTransformerClass() {
