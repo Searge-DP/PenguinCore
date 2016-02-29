@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PenguinFontRenderer extends FontRenderer {
 	public static PenguinFontRenderer INSTANCE = null;
+	private boolean resetColor = false;
 	
 	public static void load() {
 		Minecraft mc = Minecraft.getMinecraft();
@@ -53,12 +54,18 @@ public class PenguinFontRenderer extends FontRenderer {
 
 	@Override
 	public int getStringWidth(String text) {
-		return super.getStringWidth(stripFormatting(text));
+		return super.getStringWidth(replaceFormatting(text));
 	}
 	
 	@Override
-	public void drawSplitString(String str, int x, int y, int wrapWidth, int textColor) {
-		super.drawSplitString(replaceFormatting(str), x, y, wrapWidth, textColor);
+	public void drawSplitString(String text, int x, int y, int wrapWidth, int textColor) {
+		originalColor = textColor;
+		super.drawSplitString(replaceFormatting(text), x, y, wrapWidth, textColor);
+    }
+	
+	@Override
+	public int drawStringWithShadow(String text, float x, float y, int color) {
+		return super.drawStringWithShadow(replaceFormatting(text), x, y, color);
     }
 	
 	private static enum CharReplace {
@@ -66,8 +73,17 @@ public class PenguinFontRenderer extends FontRenderer {
         ITALIC_S("[i]", 'o'), ITALIC_F("[/i]", 'r'), 
         STRIKE_S("[s]", 'm'), STRIKE_F("[/s]", 'r'), 
         UNDER_S("[u]", 'n'), UNDER_F("[/u]", 'r'), 
-        CURSOR("[*cursor*]", 's'), CURSOR_HIDE("[*/cursor*]", 't'), 
-        HIDE("@99[]", 13);
+        CURSOR("[*cursor*]", 's'), CURSOR_HIDE("[*/cursor*]", 't'),
+        COLOR_F("[/color]", 'r'), COLOR_BLACK("[color=black]", '0'),
+        COLOR_D_BLUE("[color=dark_blue]", '1'), COLOR_D_GREEN("[color=dark_green]", '2'),
+        COLOR_D_AQUA("[color=dark_aqua]", '3'), COLOR_D_RED("[color=dark_red]", '4'),
+        COLOR_D_PURP("[color=dark_purple]", '5'), COLOR_GOLD("[color=gold]", '6'),
+        COLOR_GRAY("[color=gray]", '7'), COLOR_GREY("[color=grey]", '7'),
+        COLOR_D_GRAY("[color=dark_gray]", '8'), COLOR_D_GREY("[color=dark_grey]", '8'),
+        COLOR_BLUE("[color=blue]", '9'), COLOR_GREEN("[color=green]", 'a'),
+        COLOR_AQUA("[color=aqua]", 'b'), COLOR_RED("[color=red]", 'c'),
+        COLOR_L_PURP("[color=light_purple]", 'd'), COLOR_YELLOW("[color=yellow]", 'e'),
+        COLOR_WHITE("[color=white]", 'f');
 
         protected final String search;
         protected final char character;
@@ -84,11 +100,13 @@ public class PenguinFontRenderer extends FontRenderer {
 	
 	private boolean cursor = false;
 	private boolean white = false;
+	private int originalColor;
 	
 	@Override
 	public void resetStyles() {
 		super.resetStyles();
 		this.cursor = false;
+		this.resetColor = false;
     }
 	
 	@Override
@@ -123,6 +141,7 @@ public class PenguinFontRenderer extends FontRenderer {
 
                     int j1 = this.colorCode[i1];
                     this.textColor = j1;
+                    
                     setColor((float)(j1 >> 16) / 255.0F, (float)(j1 >> 8 & 255) / 255.0F, (float)(j1 & 255) / 255.0F, this.alpha);
                 }
                 else if (i1 == 16)
@@ -157,6 +176,8 @@ public class PenguinFontRenderer extends FontRenderer {
                     this.strikethroughStyle = false;
                     this.underlineStyle = false;
                     this.italicStyle = false;
+                    this.resetColor = true;
+                    this.textColor = originalColor;
                     setColor(this.red, this.blue, this.green, this.alpha);
                 }
 

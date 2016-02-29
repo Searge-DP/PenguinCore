@@ -6,7 +6,7 @@ public class JSONHelper {
 	public static String getStringIfExists(JsonObject json, String name) {
 		if (json.get(name) != null) {
 			return json.get(name).getAsString();
-		} else return null;
+		} else return "";
 	}
 	
 	public static int getIntegerIfExists(JsonObject json, String name) {

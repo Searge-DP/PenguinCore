@@ -36,9 +36,15 @@ public class TextEditor {
 		this.editable = null;
 		this.position = 0;
 	}
+	
+	public boolean isEditing() {
+		return isTextEditing && editable != null;
+	}
 
 	public void keyTyped(char character, int key) {
 		if (isTextEditing && editable != null) {
+			///Reset is just in case
+			setEditable(editable);
 			if (key == CharacterCodes.ARROW_LEFT) {
 				cursorLeft(1);
 			} else if (key == CharacterCodes.ARROW_RIGHT) {
