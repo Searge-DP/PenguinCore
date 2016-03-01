@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ClientHelper {
@@ -21,5 +22,9 @@ public class ClientHelper {
 
     public static EntityPlayer getPlayer() {
         return Minecraft.getMinecraft().thePlayer;
+    }
+
+    public static World getWorld() {
+        return Minecraft.getMinecraft().theWorld;
     }
 }

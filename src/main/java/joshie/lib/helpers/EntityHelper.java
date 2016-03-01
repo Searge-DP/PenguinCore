@@ -5,7 +5,6 @@ import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -27,11 +26,11 @@ public class EntityHelper {
     }
     
     /** Gets the player from the uuid **/
-    public static EntityPlayerMP getPlayerFromUUID(UUID uuid) {        
+    public static EntityPlayer getPlayerFromUUID(UUID uuid) {        
         //Loops through every single player
         for (EntityPlayer player : FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList) {
             if (UUIDHelper.getPlayerUUID(player).equals(uuid)) {
-                return (EntityPlayerMP) player;
+                return (EntityPlayer) player;
             }
         }
     
