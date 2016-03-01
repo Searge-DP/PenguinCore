@@ -5,11 +5,15 @@ import org.lwjgl.input.Keyboard;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ClientHelper {
-	public static boolean isShiftPressed() {
+    public static boolean isShiftPressed() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     }
-	
-	public static String getLang() {
+
+    public static String getLang() {
         return FMLClientHandler.instance().getCurrentLanguage();
+    }
+
+    public static boolean isCtrlPressed() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
     }
 }

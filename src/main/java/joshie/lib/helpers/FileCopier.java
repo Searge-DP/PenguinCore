@@ -10,12 +10,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FileUtils;
 
-import joshie.enchiridion.helpers.FileHelper;
-
 public class FileCopier {
 	private static File last_directory = null;
 	
-	public static File getFileFromUser() {
+	public static File getUserHome() {
+	    return new File(System.getProperty("user.home"));
+	}
+	
+	public static File getFileFromUser(File default_directory) {
 		//Only allow pngs to be selected, force the window on top.
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg", "gif");
         JFileChooser fileChooser = new JFileChooser() {
@@ -28,7 +30,7 @@ public class FileCopier {
         };
 
         if (last_directory == null) {
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            fileChooser.setCurrentDirectory(default_directory);
         } else {
             fileChooser.setCurrentDirectory(last_directory);
         }
@@ -43,9 +45,14 @@ public class FileCopier {
         
         return null;
 	}
-
+	
 	public static File copyFileFromUser(File directory) {
-		File userFile = getFileFromUser();
+	    return copyFileFromUser(directory, directory);
+	}
+
+	public static File copyFileFromUser(File directory, File default_directory) {
+		File userFile = getFileFromUser(default_directory);
+		if (userFile == null) return null;
 		File newFile = new File(directory, userFile.getName());
 		try {
 			if (newFile.exists()) return newFile;

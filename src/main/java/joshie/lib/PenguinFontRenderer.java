@@ -49,7 +49,7 @@ public class PenguinFontRenderer extends FontRenderer {
 			ret = ret.replace(c.search, "" + start + c.character);
 		}
 		
-		return ret.replace("\r", "\n").replace("\t", "    ");
+		return ret.replace("\r", " ").replace("\t", "    ");
 	}
 
 	@Override
