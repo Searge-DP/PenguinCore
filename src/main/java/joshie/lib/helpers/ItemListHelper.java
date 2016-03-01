@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
-import joshie.enchiridion.ELogger;
+import joshie.enchiridion.Enchiridion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -33,7 +33,7 @@ public class ItemListHelper {
                     try {
                         item.getSubItems(item, tab, items);
                     } catch (Exception e) {
-                        ELogger.log(Level.ERROR, "Enchiridion had an issue when trying to load the item: " + item.getClass());
+                        Enchiridion.log(Level.ERROR, "Enchiridion had an issue when trying to load the item: " + item.getClass());
                     }
                 }
             }
